@@ -1,5 +1,6 @@
 ### Load the data and packages ###
 library(tidyverse)
+library(sf)
 library(shiny)
 library(bslib)
 library(leaflet)
