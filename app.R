@@ -110,7 +110,8 @@ server <- function(input, output) {
   # Map creation
   output$map <- renderLeaflet({
     leaflet(data_for_app) |>
-      addProviderTiles(providers$CartoDB.Positron) |>
+      addTiles(urlTemplate = "https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=cb1_49yk_1_85a88346567ad3aa6f4e372a") |>
+      #addProviderTiles(providers$CartoDB.Positron) |>
       setView(lng=174.75, lat=-36.87, zoom=10.3) |>
       addLegend(position = "bottomright",
                 title = "Total number of houses assessed",
