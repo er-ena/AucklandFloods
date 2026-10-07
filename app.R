@@ -58,7 +58,7 @@ ui <- fluidPage(
       conditionalPanel(
         condition = "input.category_choice == 'overview'",
         p("This interactive map shows the categorisation of homes that were 
-        severly affected by the Auckland Anniversary Weekend Floods and Cyclone Gabrielle in early 2023."),
+        affected by the Auckland Anniversary Weekend Floods and Cyclone Gabrielle in early 2023."),
         
         p("Note: This was an opt-in/voluntary scheme. Not all homes that were affected in the 2023 weather events are included in this map.")
       )
