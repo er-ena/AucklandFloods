@@ -12,7 +12,7 @@ The data is from the *'Categories by suburb'* table on https://ourauckland.auckl
 
 **Afterthoughts**
 
-I think one of the coolest feature visualising this data geographically was that you could see the area which were hit the hardest by the weather events, especially from the Auckland Anniversary Floods.
+I think one of the coolest feature visualising this data geographically is that you could see the area which was hit the hardest by the weather events, especially from the Auckland Anniversary Floods.
 
 <ins>Overview of all homes assessed:<ins/>
 
@@ -22,8 +22,11 @@ I think one of the coolest feature visualising this data geographically was that
 
 <img src="https://github.com/user-attachments/assets/6f8280b3-69d5-48cd-a8d5-810d902ef4c9" width="600">
 
-The rain radar on 27 January 2023 
-<img src="https://github.com/user-attachments/assets/8d7c12d5-505c-4c5e-9ac5-b2cd7a730be4" width="500">
+The rain radar on 27 January 2023:
+
+<img src="https://github.com/user-attachments/assets/1651fce6-8933-4dfd-af26-e335029342cf" width="400">
+
+<img src="https://github.com/user-attachments/assets/e484e95f-a6db-4e3c-8f36-7286e0fa0387" width="400">
 
 
 There are also plenty more things I noticed but I will stop blabbing as this will get too long.
