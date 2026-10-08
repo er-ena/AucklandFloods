@@ -4,7 +4,7 @@
 
 This is an individual project completed as part of the capstone course in September 2025.
 
-The purpose of this app is to geographically visualise the categorisation of homes in Auckland affected by the adverse weather events in 2023: the Auckland Anniversary Weekend Floods and Cyclone Gabrielle. Since this was a voluntary categorisation, it is not the total number of homes affected by these weather events.
+The purpose of this app is to geographically visualise the categorisation of homes in Auckland affected by the adverse weather events in 2023: the Auckland Anniversary Weekend Floods and Cyclone Gabrielle. Since this was a voluntary categorisation, it is not the total number of homes affected by these weather events or the true figure of impacted homes.
 
 The data is from the *'Categories by suburb'* table on https://ourauckland.aucklandcouncil.govt.nz/news/2025/04/auckland-storm-recovery-moves-into-solution-mode/
 
@@ -12,7 +12,7 @@ The data is from the *'Categories by suburb'* table on https://ourauckland.auckl
 
 **Afterthoughts**
 
-I think one of the coolest feature visualising this data geographically is that you could see the area which was hit the hardest by the weather events, especially from the Auckland Anniversary Floods.
+I think one of the coolest feature visualising this data geographically is that you could see the area which was hit the hardest by the weather events in the category 3 panel, especially from the Auckland Anniversary Floods.
 
 <ins>Overview of all homes assessed:<ins/>
 
