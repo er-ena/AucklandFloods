@@ -1,4 +1,4 @@
-### Load the data and packages ###
+### Load the packages and data ###
 library(tidyverse)
 library(sf)
 library(shiny)
@@ -9,19 +9,20 @@ data_for_app <- read_csv("data_for_app.csv")
 auckland_suburb_polygons <- readRDS("auckland_suburb_polygons.rds")
 
 
-# User Interface 
+### User Interface ### 
 
 ui <- fluidPage(
   
   # App Title!
-  titlePanel("Affected homes - by number"),
+  titlePanel("Affected homes - by number"), # I lowk want a diff. title
   
   fluidRow(
     
     #Left-hand side panel
     column(
       width = 3,
-      h4("The property risk assessment outcome of Auckland homes affected by the 2023 weather events - by suburb"),
+      h4("The property assessment outcome of Auckland homes affected by the 
+         2023 weather events - by suburb"),
       div(style = "margin-top:20px;"),
       selectInput(
         inputId = "category_choice",
@@ -37,33 +38,38 @@ ui <- fluidPage(
         condition = "input.category_choice == 'cat1'",
         h4("Category 1"),
         p("The property has no intorelable risk to life."),
-        p("However, this does not mean that the property will never be impacted by future severe weather events or that there is 'no risk'.")
+        p("However, this does not mean that the property will never be affected 
+          by future severe weather events or that there is 'no risk'.")
       ),
       
       conditionalPanel(
         condition = "input.category_choice == 'cat2'",
         h4("Category 2C"),
-        p("The property poses intorelable risk to life that will be reduced by community mitigation project."),
+        p("The property poses intorelable risk to life that will be reduced by 
+          community mitigation project."),
         h4("Category 2P"),
-        p("The property poses intorelable risk to life that will be reduced by property mitigation."),
+        p("The property poses intorelable risk to life that will be reduced by 
+          property mitigation."),
       ),
       
       conditionalPanel(
         condition = "input.category_choice == 'cat3'",
         h4("Category 3"),
-        p("The property poses intorelable risk to life that cannot be reasonably mitigated."),
+        p("The property poses an intolerable risk to life that cannot be 
+          reasonably mitigated."),
         p("They are eligible for a buy-out.")
       ),
       
       conditionalPanel(
         condition = "input.category_choice == 'overview'",
-        p("This interactive map shows the categorisation of homes that were 
-        affected by the Auckland Anniversary Weekend Floods and Cyclone Gabrielle in early 2023."),
+        p("This interactive map shows the categorisation of homes affected by 
+          the Auckland Anniversary Weekend Floods and Cyclone Gabrielle in early 
+          2023."),
         
-        p("Note: This was an opt-in/voluntary scheme. Not all homes that were affected in the 2023 weather events are included in this map.")
+        p("Note: This was a voluntary categorisation programme. Not all homes 
+          affected in the 2023 weather events are included in this map.")
       )
     ),
-    
     
     
     #Right-hand side panel
@@ -73,10 +79,10 @@ ui <- fluidPage(
       # Map on the app
       leafletOutput("map", height = "600px"),
       
-      #Panel for Histogram
+      # Panel for Histogram
       absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                    draggable = TRUE, top = "auto", left = 20, right = "auto", bottom = 60,
-                    width = 330, height = 200,
+                    draggable = TRUE, top = "auto", left = 20, right = "auto", 
+                    bottom = 60, width = 330, height = 200,
                     
                     conditionalPanel(
                       condition = "input.category_choice == 'cat1'",
@@ -113,7 +119,7 @@ server <- function(input, output) {
   output$map <- renderLeaflet({
     leaflet(data_for_app) |>
       addTiles(urlTemplate = 
-                 paste0("https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=",
+                 paste0("https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=", 
                         carto_key))|>
       setView(lng=174.75, lat=-36.87, zoom=10.3) |>
       addLegend(position = "bottomright",
@@ -137,6 +143,7 @@ server <- function(input, output) {
     } 
   })
   
+  
   observe({
     leafletProxy("map", data = filtered_data()) |>
       clearMarkers() |>
@@ -145,10 +152,11 @@ server <- function(input, output) {
         radius = 5,
         layerId = ~Suburb,  
         color = if(input$category_choice == "overview") {
-          if_else(data_for_app$`Total Final Category` >= 100, "red", "blue")
+          ifelse(data_for_app$`Total Final Category` >= 100, "red", "blue")
         } else {
-          ~if_else(Suburb %in% c("Epsom", "Mount Eden", "Mount Roskill", "Titirangi",
-                                 "Mangere", "Henderson", "Milford", "Muriwai", "Piha"), "red", "blue")
+          ~ifelse(Suburb %in% c("Epsom", "Mount Eden", "Mount Roskill", 
+                                 "Titirangi", "Mangere", "Henderson", "Milford", 
+                                 "Muriwai", "Piha"), "red", "blue")
         },
         popup = if(input$category_choice == "overview") {
           ~paste(
@@ -191,13 +199,14 @@ server <- function(input, output) {
       )
   })
   
+  
   clicked_suburb <- reactive({
     req(input$map_marker_click)
     input$map_marker_click$id  
   })
   
   observe({
-    req(clicked_suburb())  # only run if a marker is clicked
+    req(clicked_suburb())  # only run if the circle marker is clicked
     
     selected_poly <- auckland_suburb_polygons[
       tolower(auckland_suburb_polygons$Suburb) == tolower(clicked_suburb()) |
@@ -209,15 +218,20 @@ server <- function(input, output) {
     selected_poly <- selected_poly |>
       distinct(Suburb, .keep_all = TRUE)
     
+    red_suburb <- selected_poly$Suburb %in% c("Epsom", "Mount Eden", "Mount Roskill", "Titirangi", 
+                                              "Mangere", "Henderson", "Milford", "Muriwai", "Piha")
+    border_col <- ifelse(red_suburb, "darkred", "darkblue")
+    fill_col <- ifelse(red_suburb, "red", "blue")
+    
     # Polygon on to the map
     leafletProxy("map") |>
       clearGroup("selected-suburb") |>
       addPolygons(
         data = selected_poly,
         group = "selected-suburb",
-        fillColor = "red",
+        color = border_col,
+        fillColor = fill_col,
         fillOpacity = 0.2,
-        color = "darkred",
         weight = 2,
         popup = ~Suburb
       )
